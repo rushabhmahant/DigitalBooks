@@ -17,5 +17,18 @@ public class BookService {
 	public List<Book> getAllBooks(){
 		return bookRepository.findAll();
 	}
+	
+	public Book createBook(Book book) {
+		return bookRepository.saveAndFlush(book);
+	}
+	
+	public List<Book> searchBook(String category, String title, String author, Double price, String publisher) {
+		
+		return bookRepository.searchBook(category, title, author, price, publisher);
+	}
+
+	public void deleteBook(Integer id) {
+		bookRepository.deleteById(id);
+	}
 
 }

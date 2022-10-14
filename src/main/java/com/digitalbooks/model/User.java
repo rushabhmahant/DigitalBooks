@@ -1,7 +1,14 @@
 package com.digitalbooks.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -9,11 +16,18 @@ import javax.persistence.Table;
 public class User {
 	
 	@Id
-	public String userId;
-	public String userPassword;
-	public char userAccountType;
-	public String userFirstName;
-	public String userLastName;
+	private String userId;
+	@Column(nullable = false)
+	private String userPassword;
+	@Column(nullable = false)
+	private Character userAccountType;
+	@Column(nullable = false)
+	private String userFirstName;
+	@Column(nullable = false)
+	private String userLastName;
+	
+	@OneToMany(mappedBy = "subscriptionUser", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Set<Subscription> userSubscriptions = new HashSet<Subscription>();
 	
 	public User() {
 		// Default constructor
@@ -35,11 +49,11 @@ public class User {
 		this.userPassword = userPassword;
 	}
 
-	public char getUserAccountType() {
+	public Character getUserAccountType() {
 		return userAccountType;
 	}
 
-	public void setUserAccountType(char userAccountType) {
+	public void setUserAccountType(Character userAccountType) {
 		this.userAccountType = userAccountType;
 	}
 
@@ -57,6 +71,14 @@ public class User {
 
 	public void setUserLastName(String userLastName) {
 		this.userLastName = userLastName;
+	}
+
+	public Set<Subscription> getSubscriptions() {
+		return userSubscriptions;
+	}
+
+	public void setSubscriptions(Set<Subscription> userSubscriptions) {
+		this.userSubscriptions = userSubscriptions;
 	}
 
 }

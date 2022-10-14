@@ -1,35 +1,56 @@
 package com.digitalbooks.model;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
 
 @Entity
 @Table(name = "book")
+@SequenceGenerator(name = "bookIdGenerator", sequenceName = "bookIdGenerator",  initialValue = 1000)
 public class Book {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	public int bookId;
-	public String bookTitle;
-	public String bookCategory;
-	public String bookAuthor;
-	public double bookPrice;
-	public String bookLogo;
-	public String bookContent;
-	public String bookPublisher;
-	public Date bookPublishedDate;
-	public char bookBlockedStatus = 'U';	// Book is unblocked by default
+	@GeneratedValue(strategy = GenerationType.IDENTITY, generator = "bookIdGenerator")
+	private Integer bookId;
+	@Column(nullable = false)
+	private String bookTitle;
+	@Column(nullable = false)
+	private String bookCategory;
+	@Column(nullable = false)
+	private String bookAuthor;
+	@Column(nullable = false)
+	private Double bookPrice;
+	@Column(nullable = false)
+	private String bookLogo;
+	@Column(nullable = false)
+	private String bookContent;
+	@Column(nullable = false)
+	private String bookPublisher;
+	@Column(nullable = false)
+	private Date bookPublishedDate;
+	@Column(nullable = false)
+	private Character bookBlockedStatus = 'U';	// Book is unblocked by default
+	
+	@OneToMany(mappedBy = "subscriptionBook", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Set<Subscription> bookSubscriptions = new HashSet<Subscription>();;
 	
 	public Book() {
 		//	Default constructor
 	}
 
-	public int getBookId() {
+	public Integer getBookId() {
 		return bookId;
 	}
 
@@ -97,12 +118,20 @@ public class Book {
 		this.bookPublishedDate = bookPublishedDate;
 	}
 
-	public char getBookBlockedStatus() {
+	public Character getBookBlockedStatus() {
 		return bookBlockedStatus;
 	}
 
-	public void setBookBlockedStatus(char bookBlockedStatus) {
+	public void setBookBlockedStatus(Character bookBlockedStatus) {
 		this.bookBlockedStatus = bookBlockedStatus;
+	}
+
+	public Set<Subscription> getBookSubscriptions() {
+		return bookSubscriptions;
+	}
+
+	public void setBookSubscriptions(Set<Subscription> bookSubscriptions) {
+		this.bookSubscriptions = bookSubscriptions;
 	}
 	
 	
