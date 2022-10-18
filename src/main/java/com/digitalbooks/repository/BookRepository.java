@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.digitalbooks.model.Book;
 
 @Repository
-public interface BookRepository extends JpaRepository<Book, Integer> {
+public interface BookRepository extends JpaRepository<Book, Long> {
 
 	@Query("SELECT b FROM Book b where (:category is null or b.bookCategory=:category) and "
 			+ "(:title is null or b.bookTitle=:title) and "
@@ -17,6 +17,13 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
 			+ "(:price is null or b.bookPrice=:price) and "
 			+ "(:publisher is null or b.bookPublisher=:publisher)")
 	public List<Book> searchBook(String category, String title, String author, Double price, String publisher);
+
+//	@Query("SELECT b FROM Book b where b.bookId=:bookId")
+//	public Book findBookById(long bookId);
+//
+//	@Modifying
+//	@Query("DELETE FROM Book b where b.bookId=:bookId")
+//	public void deleteBookById(Long bookId);
 	
 	
 

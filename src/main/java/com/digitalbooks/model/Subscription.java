@@ -1,5 +1,6 @@
 package com.digitalbooks.model;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -21,13 +22,10 @@ public class Subscription {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "subscriptionIdGenerator")
 	private Long subscriptionId;
-	//@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, orphanRemoval = false)
-//	public String subscriptionUserId;
-//	public Integer subscriptionBookId;
 	@Column(nullable = false)
-	private Character subscriptionStatus;
+	private Character subscriptionStatus = 'A';	// Subscription status set to Active by default
 	@Column(nullable = false)
-	private Date subscriptionDate;
+	private LocalDate subscriptionDate;
 	@Column(nullable = false)
 	private Double subscriptionPrice;
 	
@@ -51,11 +49,11 @@ public class Subscription {
 		this.subscriptionStatus = subscriptionStatus;
 	}
 
-	public Date getSubscriptionDate() {
+	public LocalDate getSubscriptionDate() {
 		return subscriptionDate;
 	}
 
-	public void setSubscriptionDate(Date subscriptionDate) {
+	public void setSubscriptionDate(LocalDate subscriptionDate) {
 		this.subscriptionDate = subscriptionDate;
 	}
 

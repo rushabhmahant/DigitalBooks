@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,9 +27,20 @@ public class BookController {
 		return bookService.getAllBooks();
 	}
 	
+	@GetMapping("/getBookById/{bookId}")
+	public Book getBookById(@PathVariable long bookId) {
+		return bookService.getBookById(bookId);
+	}
+	
 	@PostMapping("/author/{authorId}/books")
 	public Book createBook(@PathVariable String authorId, @RequestBody Book book) {
 		return bookService.createBook(book);
+	}
+	
+	@PutMapping("/author/{authorId}/books/{bookId}")
+	public Book updateBook(@PathVariable long bookId, @RequestBody Book book) {
+		// Make sure to include bookId in request to perform update
+		return bookService.updateBook(bookId, book);
 	}
 	
 	@GetMapping("/search")
@@ -40,9 +52,15 @@ public class BookController {
 		return bookService.searchBook(category, title, author, price, publisher);
 	}
 	
-	@DeleteMapping("/delete/{authorId}/{id}")
-	public void deleteBook(@PathVariable Integer id) {
-		bookService.deleteBook(id);
+	@DeleteMapping("/delete/{authorId}/{bookId}")
+	public void deleteBook(@PathVariable Long bookId) {
+		bookService.deleteBook(bookId);
+	}
+	
+	@PostMapping("/author/{authorId}/books/{bookId}")
+	public Book setBookBlockedStatus(@PathVariable long bookId, @RequestParam String block,
+			@RequestBody Book book) {
+		return bookService.setBookBlockedStatus(bookId, block, book);
 	}
 
 }

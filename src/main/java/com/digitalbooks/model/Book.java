@@ -23,7 +23,7 @@ public class Book {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY, generator = "bookIdGenerator")
-	private Integer bookId;
+	private Long bookId;
 	@Column(nullable = false)
 	private String bookTitle;
 	@Column(nullable = false)
@@ -44,13 +44,13 @@ public class Book {
 	private Character bookBlockedStatus = 'U';	// Book is unblocked by default
 	
 	@OneToMany(mappedBy = "subscriptionBook", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private Set<Subscription> bookSubscriptions = new HashSet<Subscription>();;
+	private Set<Subscription> bookSubscriptions = new HashSet<Subscription>();
 	
 	public Book() {
 		//	Default constructor
 	}
 
-	public Integer getBookId() {
+	public Long getBookId() {
 		return bookId;
 	}
 

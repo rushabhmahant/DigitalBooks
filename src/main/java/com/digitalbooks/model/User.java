@@ -7,16 +7,23 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "user")
+@SequenceGenerator(name = "userIdGenerator", sequenceName = "userIdGenerator",  initialValue = 10000)
 public class User {
 	
 	@Id
-	private String userId;
+	@GeneratedValue(strategy = GenerationType.IDENTITY, generator = "userIdGenerator")
+	private Long userId;
+	@Column(nullable = false)
+	private String userName;
 	@Column(nullable = false)
 	private String userPassword;
 	@Column(nullable = false)
@@ -33,12 +40,16 @@ public class User {
 		// Default constructor
 	}
 
-	public String getUserId() {
+	public Long getUserId() {
 		return userId;
 	}
+	
+	public String getUserName() {
+		return userName;
+	}
 
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 	public String getUserPassword() {

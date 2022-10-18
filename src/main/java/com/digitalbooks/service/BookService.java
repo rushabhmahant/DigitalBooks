@@ -18,7 +18,16 @@ public class BookService {
 		return bookRepository.findAll();
 	}
 	
+	public Book getBookById(Long bookId) {
+		return bookRepository.findById(bookId).get();
+	}
+	
 	public Book createBook(Book book) {
+		return bookRepository.saveAndFlush(book);
+	}
+	
+	public Book updateBook(Long bookId, Book book) {
+		// book.setBookId(bookId);
 		return bookRepository.saveAndFlush(book);
 	}
 	
@@ -27,8 +36,23 @@ public class BookService {
 		return bookRepository.searchBook(category, title, author, price, publisher);
 	}
 
-	public void deleteBook(Integer id) {
-		bookRepository.deleteById(id);
+	public void deleteBook(Long bookId) {
+		bookRepository.deleteById(bookId);
+	}
+
+	public Book setBookBlockedStatus(Long bookId, String block, Book book) {
+		Character bookStatus = (block.equals("yes")) ? 'B' : 'U';
+		if(!bookStatus.equals(book.getBookBlockedStatus())) {
+			// book.setBookId(bookId);
+			book.setBookBlockedStatus(bookStatus);
+			bookRepository.save(book);
+			if(bookStatus.equals('B')) {
+				//	send notification to subscribed users subscribed to it
+				book.getBookSubscriptions().stream()
+					.forEach((sub) -> System.out.println(sub.getSubscriptionUser().getUserId()));
+			}
+		}
+		return book;
 	}
 
 }
